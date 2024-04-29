@@ -1,4 +1,4 @@
-package com.microservices.AuthenticationService;
+package com.microservices.authenticationservice;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.boot.SpringApplication;
