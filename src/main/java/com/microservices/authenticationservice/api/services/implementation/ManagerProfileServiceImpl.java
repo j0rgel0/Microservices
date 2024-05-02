@@ -5,21 +5,26 @@ import com.microservices.authenticationservice.api.models.dto.ManagerProfileDTO;
 import com.microservices.authenticationservice.api.models.entities.ManagerProfileEntity;
 import com.microservices.authenticationservice.api.repositories.ManagerProfileRepository;
 import com.microservices.authenticationservice.api.services.ManagerProfileService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class ManagerProfileServiceImpl implements ManagerProfileService {
 
     private static final String MANAGER_PROFILE_NOT_FOUND_MSG = "Manager profile";
 
     private final ManagerProfileRepository managerProfileRepository;
+    private final MessageSource messageSource;
 
-    public ManagerProfileServiceImpl(ManagerProfileRepository managerProfileRepository) {
+    public ManagerProfileServiceImpl(ManagerProfileRepository managerProfileRepository, MessageSource messageSource) {
         this.managerProfileRepository = managerProfileRepository;
+        this.messageSource = messageSource;
     }
 
     @Override
@@ -30,7 +35,11 @@ public class ManagerProfileServiceImpl implements ManagerProfileService {
 
     @Override
     public ManagerProfileDTO getManagerProfileByUserId(UUID userId) {
-        ManagerProfileEntity managerProfileEntity = managerProfileRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException(MANAGER_PROFILE_NOT_FOUND_MSG, userId));
+        ManagerProfileEntity managerProfileEntity = managerProfileRepository.findById(userId).orElseThrow(() -> {
+            String message = messageSource.getMessage("manager.profile.not.found", new Object[]{userId}, LocaleContextHolder.getLocale());
+            log.warn(message);
+            return new ResourceNotFoundException(message, userId);
+        });
         return convertToDTO(managerProfileEntity);
     }
 
@@ -43,16 +52,24 @@ public class ManagerProfileServiceImpl implements ManagerProfileService {
 
     @Override
     public ManagerProfileDTO updateManagerProfile(UUID userId, ManagerProfileDTO managerProfileDTO) {
-        ManagerProfileEntity existingManagerProfileEntity = managerProfileRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException(MANAGER_PROFILE_NOT_FOUND_MSG, userId));
+        ManagerProfileEntity existingManagerProfileEntity = managerProfileRepository.findById(userId).orElseThrow(() -> {
+            String message = messageSource.getMessage("manager.profile.not.found", new Object[]{userId}, LocaleContextHolder.getLocale());
+            log.warn(message);
+            return new ResourceNotFoundException(message, userId);
+        });
         existingManagerProfileEntity.setTeamSize(managerProfileDTO.getTeamSize());
-        // Update other fields as needed
+        existingManagerProfileEntity.setAreaOfResponsibility(managerProfileDTO.getAreaOfResponsibility());
         ManagerProfileEntity updatedManagerProfileEntity = managerProfileRepository.save(existingManagerProfileEntity);
         return convertToDTO(updatedManagerProfileEntity);
     }
 
     @Override
     public void deleteManagerProfile(UUID userId) {
-        ManagerProfileEntity managerProfileEntity = managerProfileRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException(MANAGER_PROFILE_NOT_FOUND_MSG, userId));
+        ManagerProfileEntity managerProfileEntity = managerProfileRepository.findById(userId).orElseThrow(() -> {
+            String message = messageSource.getMessage("manager.profile.not.found", new Object[]{userId}, LocaleContextHolder.getLocale());
+            log.warn(message);
+            return new ResourceNotFoundException(message, userId);
+        });
         managerProfileRepository.delete(managerProfileEntity);
     }
 

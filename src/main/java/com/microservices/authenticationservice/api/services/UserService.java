@@ -20,6 +20,4 @@ public interface UserService {
     UserDTO updateUser(UUID id, UserDTO userDTO);
 
     ApiResponse deleteUser(UUID id);
-
-    String authenticateUser(String email, String password);
 }

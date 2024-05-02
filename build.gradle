@@ -26,21 +26,33 @@ ext {
 }
 
 dependencies {
+	// Core Spring Boot starters
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-//	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.flywaydb:flyway-core'
-	implementation 'org.springframework.cloud:spring-cloud-starter-config'
-//	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'org.postgresql:postgresql'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-//	testImplementation 'org.springframework.security:spring-security-test'
 	implementation 'org.springframework.boot:spring-boot-starter-hateoas'
-
 	implementation 'io.github.cdimascio:dotenv-java:3.0.0'
 
+	// JWT
+	implementation 'com.auth0:java-jwt:3.18.2'
+
+	// Database migration tool
+	implementation 'org.flywaydb:flyway-core'
+	// Cloud configuration management
+	implementation 'org.springframework.cloud:spring-cloud-starter-config'
+
+	// Dependencies needed only during compile time
+	compileOnly 'org.projectlombok:lombok'
+
+	// Dependencies needed only at runtime
+	runtimeOnly 'org.postgresql:postgresql'
+
+	// Annotation processors
+	annotationProcessor 'org.projectlombok:lombok'
+
+	// Dependencies for testing
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
 }
 
 dependencyManagement {

@@ -6,7 +6,7 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- Basic users
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
                        id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
                        first_name VARCHAR(50) NOT NULL,
                        last_name VARCHAR(50),
@@ -15,11 +15,11 @@ CREATE TABLE users (
                        creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                        last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                        soft_delete BOOLEAN NOT NULL DEFAULT FALSE,
-                       user_type VARCHAR(15) NOT NULL  -- 'administrator' or 'manager'
+                       role VARCHAR(15) NOT NULL  -- 'administrator' or 'manager'
 );
 
 -- Administrator profile
-CREATE TABLE administrator_profiles (
+CREATE TABLE IF NOT EXISTS administrator_profiles (
                        user_id UUID PRIMARY KEY,
                        department VARCHAR(50),  -- Department or area of responsibility
                        permissions_level VARCHAR(20),  -- Permission level, e.g., 'full', 'restricted'
@@ -27,7 +27,7 @@ CREATE TABLE administrator_profiles (
 );
 
 -- Manager profile
-CREATE TABLE manager_profiles (
+CREATE TABLE IF NOT EXISTS manager_profiles (
                        user_id UUID PRIMARY KEY,
                        team_size INT,  -- Size of the team they manage
                        area_of_responsibility VARCHAR(255),  -- Specific area of responsibility

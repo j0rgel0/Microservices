@@ -38,7 +38,7 @@ public class UserEntity {
     private boolean softDelete;
 
     @Column(nullable = false)
-    private String userType;
+    private String role;
 
     @PrePersist
     protected void onCreate() {
