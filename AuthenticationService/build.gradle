@@ -38,8 +38,10 @@ dependencies {
 
 	// Database migration tool
 	implementation 'org.flywaydb:flyway-core'
-	// Cloud configuration management
-	implementation 'org.springframework.cloud:spring-cloud-starter-config'
+
+	// Eureka client
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
 	// Dependencies needed only during compile time
 	compileOnly 'org.projectlombok:lombok'
