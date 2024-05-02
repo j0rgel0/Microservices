@@ -17,6 +17,6 @@ public class UserDTO {
     private LocalDateTime creationDate;
     private LocalDateTime lastUpdate;
     private boolean softDelete;
-    private String userType;
+    private String role;
 
 }

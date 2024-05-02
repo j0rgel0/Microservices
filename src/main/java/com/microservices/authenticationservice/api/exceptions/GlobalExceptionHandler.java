@@ -7,6 +7,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -90,5 +91,12 @@ public class GlobalExceptionHandler {
         String message = messageSource.getMessage(INTERNAL_SERVER_ERROR_MSG, null, LocaleContextHolder.getLocale());
         log.error("An unexpected error occurred: {}", ex.getMessage(), ex);
         return buildResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR, message);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ApiResponse> handleAccessDeniedException(AccessDeniedException ex) {
+        log.warn("Access denied warning: {}", ex.getMessage());
+        String message = "Access is denied";
+        return buildResponseEntity(HttpStatus.FORBIDDEN, message);
     }
 }

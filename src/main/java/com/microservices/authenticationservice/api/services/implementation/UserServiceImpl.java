@@ -12,7 +12,6 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -66,7 +65,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id)
                 .map(this::convertToDTO)
                 .orElseThrow(() -> {
-                    String message = messageSource.getMessage(RESOURCE_NOT_FOUND_MSG, new Object[]{"User"}, LocaleContextHolder.getLocale());
                     String details = "The requested User with ID: " + id + " was not found.";
                     log.warn(details);
                     return new ResourceNotFoundException(details, id);
@@ -158,7 +156,7 @@ public class UserServiceImpl implements UserService {
         userDTO.setCreationDate(userEntity.getCreationDate());
         userDTO.setLastUpdate(userEntity.getLastUpdate());
         userDTO.setSoftDelete(userEntity.isSoftDelete());
-        userDTO.setUserType(userEntity.getUserType());
+        userDTO.setRole(userEntity.getRole());
         return userDTO;
     }
 
@@ -178,16 +176,8 @@ public class UserServiceImpl implements UserService {
         userEntity.setCreationDate(userDTO.getCreationDate());
         userEntity.setLastUpdate(userDTO.getLastUpdate());
         userEntity.setSoftDelete(userDTO.isSoftDelete());
-        userEntity.setUserType(userDTO.getUserType());
+        userEntity.setRole(userDTO.getRole());
         return userEntity;
-    }
-
-    public String authenticateUser(String email, String password) {
-        UserEntity user = userRepository.findByEmail(email);
-        if (user != null && user.getPassword().equals(password)) {
-            return "generated-token-string";  // Placeholder for a session token or similar authentication token
-        }
-        return null;  // Return null if authentication fails
     }
 
     private void validateUserDTO(UserDTO userDTO) {

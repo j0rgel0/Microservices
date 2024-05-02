@@ -5,6 +5,7 @@ import com.microservices.authenticationservice.api.services.ManagerProfileServic
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class ManagerProfileController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or hasRole('ROLE_MANAGER')")
     public ResponseEntity<List<EntityModel<ManagerProfileDTO>>> getAllManagerProfiles() {
         List<ManagerProfileDTO> managerProfiles = managerProfileService.getAllManagerProfiles();
         List<EntityModel<ManagerProfileDTO>> entityModels = managerProfiles.stream()
@@ -38,6 +40,7 @@ public class ManagerProfileController {
      * @return ResponseEntity containing ManagerProfileDTO and HATEOAS links
      */
     @GetMapping("/{userId}")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or hasRole('ROLE_MANAGER')")
     public ResponseEntity<EntityModel<ManagerProfileDTO>> getManagerProfileByUserId(@PathVariable UUID userId) {
         ManagerProfileDTO managerProfile = managerProfileService.getManagerProfileByUserId(userId);
         EntityModel<ManagerProfileDTO> resource = EntityModel.of(managerProfile,
@@ -53,7 +56,8 @@ public class ManagerProfileController {
      * @param managerProfileDTO the manager profile data transfer object containing profile details
      * @return ResponseEntity containing created ManagerProfileDTO and a link to the profile
      */
-    @PostMapping
+    @PostMapping("/")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or hasRole('ROLE_MANAGER')")
     public ResponseEntity<EntityModel<ManagerProfileDTO>> createManagerProfile(@RequestBody ManagerProfileDTO managerProfileDTO) {
         ManagerProfileDTO createdProfile = managerProfileService.createManagerProfile(managerProfileDTO);
         EntityModel<ManagerProfileDTO> resource = EntityModel.of(createdProfile,
@@ -70,6 +74,7 @@ public class ManagerProfileController {
      * @return ResponseEntity containing updated ManagerProfileDTO and links
      */
     @PutMapping("/{userId}")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or hasRole('ROLE_MANAGER')")
     public ResponseEntity<EntityModel<ManagerProfileDTO>> updateManagerProfile(@PathVariable UUID userId, @RequestBody ManagerProfileDTO managerProfileDTO) {
         ManagerProfileDTO updatedProfile = managerProfileService.updateManagerProfile(userId, managerProfileDTO);
         EntityModel<ManagerProfileDTO> resource = EntityModel.of(updatedProfile,
@@ -85,6 +90,7 @@ public class ManagerProfileController {
      * @param userId the UUID of the user associated with the profile to delete
      */
     @DeleteMapping("/{userId}")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     public void deleteManagerProfile(@PathVariable UUID userId) {
         managerProfileService.deleteManagerProfile(userId);
     }

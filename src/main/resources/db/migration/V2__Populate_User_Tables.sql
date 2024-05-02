@@ -3,8 +3,8 @@
 -- Description: Populate user and profile tables with initial data
 
 -- Insert an administrator
-INSERT INTO users (first_name, email, password, user_type)
-VALUES ('Alice', 'alice@example.com', 'secure_password123', 'administrator')
+INSERT INTO users (first_name, email, password, role)
+VALUES ('Alice', 'alice@example.com', '$2a$10$74hKeGBPe2KPLn6ZrGzZEukaVFu2SqW27qo3ULxCy2zYh2XSIco8W', 'administrator')
     ON CONFLICT (email) DO NOTHING;
 
 -- Add administrator profile
@@ -13,8 +13,8 @@ VALUES ((SELECT id FROM users WHERE email='alice@example.com'), 'IT', 'full')
     ON CONFLICT (user_id) DO NOTHING;
 
 -- Insert a manager
-INSERT INTO users (first_name, email, password, user_type)
-VALUES ('Bob', 'bob@example.com', 'secure_password321', 'manager')
+INSERT INTO users (first_name, email, password, role)
+VALUES ('Bob', 'bob@example.com', '$2a$10$I93MzLeDvK4lgrdhjpdHx.Bv6rhxwBZ3BQo9f5FPaJbLVau0S0UEC', 'manager')
     ON CONFLICT (email) DO NOTHING;
 
 -- Add manager profile

@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,6 +32,7 @@ public class AdministratorProfileController {
      * @return ResponseEntity containing a list of AdministratorProfileDTO objects with HATEOAS links
      */
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or hasRole('ROLE_MANAGER')")
     public ResponseEntity<List<EntityModel<AdministratorProfileDTO>>> getAllAdminProfiles(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
@@ -50,6 +52,7 @@ public class AdministratorProfileController {
      * @return ResponseEntity containing AdministratorProfileDTO and HATEOAS links
      */
     @GetMapping("/{userId}")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or hasRole('ROLE_MANAGER')")
     public ResponseEntity<EntityModel<AdministratorProfileDTO>> getAdminProfileByUserId(@PathVariable UUID userId) {
         AdministratorProfileDTO adminProfile = adminProfileService.getAdminProfileByUserId(userId);
         if (adminProfile == null) {
@@ -67,7 +70,8 @@ public class AdministratorProfileController {
      * @param adminProfileDTO the administrator profile data transfer object containing profile details
      * @return ResponseEntity containing created AdministratorProfileDTO and a link to the profile
      */
-    @PostMapping
+    @PostMapping("/")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or hasRole('ROLE_MANAGER')")
     public ResponseEntity<EntityModel<AdministratorProfileDTO>> createAdminProfile(@RequestBody AdministratorProfileDTO adminProfileDTO) {
         AdministratorProfileDTO createdProfile = adminProfileService.createAdminProfile(adminProfileDTO);
         EntityModel<AdministratorProfileDTO> resource = EntityModel.of(createdProfile,
@@ -83,6 +87,7 @@ public class AdministratorProfileController {
      * @return ResponseEntity containing updated AdministratorProfileDTO and links
      */
     @PutMapping("/{userId}")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or hasRole('ROLE_MANAGER')")
     public ResponseEntity<EntityModel<AdministratorProfileDTO>> updateAdminProfile(@PathVariable UUID userId, @RequestBody AdministratorProfileDTO adminProfileDTO) {
         AdministratorProfileDTO updatedProfile = adminProfileService.updateAdminProfile(userId, adminProfileDTO);
         EntityModel<AdministratorProfileDTO> resource = EntityModel.of(updatedProfile,
@@ -92,6 +97,7 @@ public class AdministratorProfileController {
     }
 
     @DeleteMapping("/{userId}")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     public void deleteAdminProfile(@PathVariable UUID userId) {
         adminProfileService.deleteAdminProfile(userId);
     }

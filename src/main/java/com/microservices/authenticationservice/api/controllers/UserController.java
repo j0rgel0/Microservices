@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -34,6 +35,7 @@ public class UserController {
      * @return ResponseEntity containing a page of UserDTO objects with HATEOAS links
      */
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or hasRole('ROLE_MANAGER')")
     public ResponseEntity<Page<EntityModel<UserDTO>>> getAllUsers(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
@@ -53,6 +55,7 @@ public class UserController {
      * @return ResponseEntity containing UserDTO and HATEOAS links
      */
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or hasRole('ROLE_MANAGER')")
     public ResponseEntity<EntityModel<UserDTO>> getUserById(@PathVariable UUID id) {
         UserDTO userDTO = userService.getUserById(id);
         EntityModel<UserDTO> resource = EntityModel.of(userDTO,
@@ -69,6 +72,7 @@ public class UserController {
      * @return ResponseEntity containing created UserDTO and a link to the user
      */
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or hasRole('ROLE_MANAGER')")
     public ResponseEntity<EntityModel<UserDTO>> createUser(@RequestBody UserDTO userDTO) {
         UserDTO createdUser = userService.createUser(userDTO);
         EntityModel<UserDTO> resource = EntityModel.of(createdUser,
@@ -85,6 +89,7 @@ public class UserController {
      * @return ResponseEntity containing updated UserDTO and links
      */
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or hasRole('ROLE_MANAGER')")
     public ResponseEntity<EntityModel<UserDTO>> updateUser(@PathVariable UUID id, @RequestBody UserDTO userDTO) {
         UserDTO updatedUser = userService.updateUser(id, userDTO);
         EntityModel<UserDTO> resource = EntityModel.of(updatedUser,
@@ -100,25 +105,10 @@ public class UserController {
      * @param id the UUID of the user to delete
      */
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR') or hasRole('ROLE_MANAGER')")
     public ResponseEntity<ApiResponse> deleteUser(@PathVariable UUID id) {
         ApiResponse apiResponse = userService.deleteUser(id);
         return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
     }
 
-    /**
-     * Authenticates a user based on email and password.
-     * POST /users/login
-     *
-     * @param userDTO the user data transfer object containing email and password
-     * @return ResponseEntity containing the authentication token or error message
-     */
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody UserDTO userDTO) {
-        String token = userService.authenticateUser(userDTO.getEmail(), userDTO.getPassword());
-        if (token != null) {
-            return ResponseEntity.ok(token);
-        } else {
-            return ResponseEntity.status(401).body("Authentication failed");
-        }
-    }
 }
