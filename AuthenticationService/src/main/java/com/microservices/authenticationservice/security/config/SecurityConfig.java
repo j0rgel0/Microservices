@@ -38,7 +38,7 @@ public class SecurityConfig {
                 .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class))))
                 .addFilterAfter(new JwtTokenVerifier(), JwtUsernameAndPasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers(ApiConstants.AUTH_BASE_URL).permitAll()
+                        .requestMatchers(ApiConstants.AUTH_LOGIN_URL).permitAll()
                         .requestMatchers("/api/**").hasAnyRole("MANAGER", "ADMINISTRATOR")
                         .anyRequest().authenticated()
                 );
