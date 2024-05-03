@@ -22,6 +22,7 @@ ext {
 dependencies {
 	// Spring Boot Actuator for application monitoring and management
 	implementation 'org.springframework.boot:spring-boot-starter-actuator' // Provides capabilities to monitor and interact with your application
+	implementation 'io.micrometer:micrometer-registry-prometheus'
 
 	// Service discovery and routing
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client' // Eureka client for service discovery in a microservices architecture
@@ -29,6 +30,9 @@ dependencies {
 
 	// Load balancing
 	implementation 'org.springframework.cloud:spring-cloud-starter-loadbalancer' // Starter for client-side load balancing
+
+	// Testing dependencies
+	testImplementation 'org.springframework.boot:spring-boot-starter-test' // Starter for testing Spring Boot applications with libraries including JUnit, Hamcrest, and Mockito
 }
 
 dependencyManagement {
