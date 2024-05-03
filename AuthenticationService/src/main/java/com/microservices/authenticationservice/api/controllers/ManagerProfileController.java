@@ -2,6 +2,7 @@ package com.microservices.authenticationservice.api.controllers;
 
 import com.microservices.authenticationservice.api.models.dto.ManagerProfileDTO;
 import com.microservices.authenticationservice.api.services.ManagerProfileService;
+import com.microservices.authenticationservice.api.util.ApiConstants;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/manager-profiles")
+@RequestMapping(ApiConstants.MANAGER_PROFILES_BASE_URL)
 public class ManagerProfileController {
 
     private final ManagerProfileService managerProfileService;
