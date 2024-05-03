@@ -25,6 +25,7 @@ dependencies {
 
 	// Application monitoring and management
 	implementation 'org.springframework.boot:spring-boot-starter-actuator' // Provides capabilities to monitor and interact with your application
+	implementation 'io.micrometer:micrometer-registry-prometheus'
 
 	// Testing dependencies
 	testImplementation 'org.springframework.boot:spring-boot-starter-test' // Starter for testing Spring Boot applications with libraries including JUnit, Hamcrest, and Mockito

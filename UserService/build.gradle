@@ -42,6 +42,7 @@ dependencies {
 	// Eureka client for service discovery
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client' // Starter for using Eureka client in microservices
 	implementation 'org.springframework.boot:spring-boot-starter-actuator' // Starter for managing and monitoring applications
+	implementation 'io.micrometer:micrometer-registry-prometheus'
 
 	// Compile-time only dependencies
 	compileOnly 'org.projectlombok:lombok' // Lombok for reducing boilerplate code such as getters, setters, and toString methods

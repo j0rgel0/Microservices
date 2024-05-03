@@ -1,0 +1,35 @@
+version: '3'
+services:
+  microservice-database:
+    build:
+      context: ./docker/database
+      dockerfile: Dockerfile
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:v2.30.0
+    volumes:
+      - ./docker/prometheus/:/etc/prometheus/
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - 9090:9090
+    restart: always
+
+  grafana:
+    image: grafana/grafana:8.1.2
+    depends_on:
+      - prometheus
+    ports:
+      - 3000:3000
+    volumes:
+      - ./docker/grafana/provisioning/:/etc/grafana/provisioning/
+    env_file:
+      - ./docker/grafana/config.monitoring
+    restart: always
