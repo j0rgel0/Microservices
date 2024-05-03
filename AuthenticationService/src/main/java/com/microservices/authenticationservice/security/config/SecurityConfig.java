@@ -1,5 +1,6 @@
 package com.microservices.authenticationservice.security.config;
 
+import com.microservices.authenticationservice.api.util.ApiConstants;
 import com.microservices.authenticationservice.security.filter.JwtTokenVerifier;
 import com.microservices.authenticationservice.security.filter.JwtUsernameAndPasswordAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
@@ -37,7 +38,7 @@ public class SecurityConfig {
                 .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class))))
                 .addFilterAfter(new JwtTokenVerifier(), JwtUsernameAndPasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/api/auth/login").permitAll()
+                        .requestMatchers(ApiConstants.AUTH_BASE_URL).permitAll()
                         .requestMatchers("/api/**").hasAnyRole("MANAGER", "ADMINISTRATOR")
                         .anyRequest().authenticated()
                 );

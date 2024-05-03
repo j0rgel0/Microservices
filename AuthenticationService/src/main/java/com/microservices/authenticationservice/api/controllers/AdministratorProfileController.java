@@ -2,6 +2,7 @@ package com.microservices.authenticationservice.api.controllers;
 
 import com.microservices.authenticationservice.api.models.dto.AdministratorProfileDTO;
 import com.microservices.authenticationservice.api.services.AdministratorProfileService;
+import com.microservices.authenticationservice.api.util.ApiConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/admin-profiles")
+@RequestMapping(ApiConstants.ADMIN_PROFILES_BASE_URL)
 @Slf4j
 public class AdministratorProfileController {
 

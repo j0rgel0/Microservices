@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microservices.authenticationservice.api.models.dto.JwtResponseDTO;
 import com.microservices.authenticationservice.api.models.dto.LoginRequestDTO;
+import com.microservices.authenticationservice.api.util.ApiConstants;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,7 +25,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
 
     public JwtUsernameAndPasswordAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
-        setFilterProcessesUrl("/api/auth/login");
+        setFilterProcessesUrl(ApiConstants.AUTH_BASE_URL);
     }
 
     @Override
