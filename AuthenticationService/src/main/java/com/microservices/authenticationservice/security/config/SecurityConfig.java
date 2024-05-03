@@ -1,8 +1,8 @@
 package com.microservices.authenticationservice.security.config;
 
 import com.microservices.authenticationservice.api.util.ApiConstants;
-import com.microservices.authenticationservice.security.filter.JwtTokenVerifier;
 import com.microservices.authenticationservice.security.filter.JwtUsernameAndPasswordAuthenticationFilter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,6 +20,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
+    @Value("${app.jwtSecret}")
+    private String jwtSecret;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -35,11 +38,9 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class))))
-                .addFilterAfter(new JwtTokenVerifier(), JwtUsernameAndPasswordAuthenticationFilter.class)
+                .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)), jwtSecret))
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers(ApiConstants.AUTH_LOGIN_URL).permitAll()
-                        .requestMatchers("/api/**").hasAnyRole("MANAGER", "ADMINISTRATOR")
                         .anyRequest().authenticated()
                 );
 

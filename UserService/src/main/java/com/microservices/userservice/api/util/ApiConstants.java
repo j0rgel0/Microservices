@@ -9,9 +9,6 @@ public final class ApiConstants {
     public static final String API_BASE_URL = "/api";
     public static final String API_VERSION = "v1";
 
-    // Routes for Login
-    public static final String AUTH_BASE_URL = API_BASE_URL + "/" + API_VERSION + "/auth";
-
     // Routes for AdministratorProfileController
     public static final String ADMIN_PROFILES_BASE_URL = API_BASE_URL + "/" + API_VERSION + "/admin-profiles";
 
