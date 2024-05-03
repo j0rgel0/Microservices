@@ -1,0 +1,68 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.2.5'
+	id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'com.microservices'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	set('springCloudVersion', "2023.0.1")
+}
+
+dependencies {
+	// Core Spring Boot starters
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // Starter for JPA with Spring Data
+	implementation 'org.springframework.boot:spring-boot-starter-security' // Starter for using Spring Security
+	implementation 'org.springframework.boot:spring-boot-starter-web' // Starter for building web, including RESTful, applications
+	implementation 'org.springframework.boot:spring-boot-starter-hateoas' // Starter for building hypermedia-based RESTful web service
+	implementation 'io.github.cdimascio:dotenv-java:3.0.0' // Library to load environment variables from .env files
+
+	// JWT authentication
+	implementation 'com.auth0:java-jwt:3.18.2' // Library to create and verify JSON Web Tokens (JWT)
+
+	// Database migration tool
+	implementation 'org.flywaydb:flyway-core' // Support for database migrations using Flyway
+
+	// Eureka client for service discovery
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client' // Starter for using Eureka client in microservices
+	implementation 'org.springframework.boot:spring-boot-starter-actuator' // Starter for managing and monitoring applications
+
+	// Compile-time only dependencies
+	compileOnly 'org.projectlombok:lombok' // Lombok for reducing boilerplate code such as getters, setters, and toString methods
+
+	// Runtime-only dependencies
+	runtimeOnly 'org.postgresql:postgresql' // PostgreSQL JDBC Driver
+
+	// Annotation processors
+	annotationProcessor 'org.projectlombok:lombok' // Annotation processor for Lombok
+
+	// Testing dependencies
+	testImplementation 'org.springframework.boot:spring-boot-starter-test' // Starter for testing Spring Boot applications with libraries including JUnit, Hamcrest and Mockito
+	testImplementation 'org.springframework.security:spring-security-test' // Starter for testing Spring Security applications
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
