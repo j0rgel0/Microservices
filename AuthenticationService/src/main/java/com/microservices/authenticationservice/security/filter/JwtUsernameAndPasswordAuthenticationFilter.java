@@ -22,9 +22,11 @@ import java.util.Date;
 public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
+    private final String jwtSecret;
 
-    public JwtUsernameAndPasswordAuthenticationFilter(AuthenticationManager authenticationManager) {
+    public JwtUsernameAndPasswordAuthenticationFilter(AuthenticationManager authenticationManager, String jwtSecret) {
         this.authenticationManager = authenticationManager;
+        this.jwtSecret = jwtSecret;
         setFilterProcessesUrl(ApiConstants.AUTH_LOGIN_URL);
     }
 
@@ -50,7 +52,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
                 .withSubject(userDetails.getUsername())
                 .withClaim("role", role)
                 .withExpiresAt(new Date(System.currentTimeMillis() + 864_000_000)) // 10 days
-                .sign(Algorithm.HMAC512("secret".getBytes()));
+                .sign(Algorithm.HMAC512(jwtSecret.getBytes()));
 
         response.addHeader("Authorization", "Bearer " + token);
 
