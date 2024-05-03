@@ -27,34 +27,34 @@ ext {
 
 dependencies {
 	// Core Spring Boot starters
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-hateoas'
-	implementation 'io.github.cdimascio:dotenv-java:3.0.0'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // Starter for JPA with Spring Data
+	implementation 'org.springframework.boot:spring-boot-starter-security' // Starter for using Spring Security
+	implementation 'org.springframework.boot:spring-boot-starter-web' // Starter for building web, including RESTful, applications
+	implementation 'org.springframework.boot:spring-boot-starter-hateoas' // Starter for building hypermedia-based RESTful web service
+	implementation 'io.github.cdimascio:dotenv-java:3.0.0' // Library to load environment variables from .env files
 
-	// JWT
-	implementation 'com.auth0:java-jwt:3.18.2'
+	// JWT authentication
+	implementation 'com.auth0:java-jwt:3.18.2' // Library to create and verify JSON Web Tokens (JWT)
 
 	// Database migration tool
-	implementation 'org.flywaydb:flyway-core'
+	implementation 'org.flywaydb:flyway-core' // Support for database migrations using Flyway
 
-	// Eureka client
-	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	// Eureka client for service discovery
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client' // Starter for using Eureka client in microservices
+	implementation 'org.springframework.boot:spring-boot-starter-actuator' // Starter for managing and monitoring applications
 
-	// Dependencies needed only during compile time
-	compileOnly 'org.projectlombok:lombok'
+	// Compile-time only dependencies
+	compileOnly 'org.projectlombok:lombok' // Lombok for reducing boilerplate code such as getters, setters, and toString methods
 
-	// Dependencies needed only at runtime
-	runtimeOnly 'org.postgresql:postgresql'
+	// Runtime-only dependencies
+	runtimeOnly 'org.postgresql:postgresql' // PostgreSQL JDBC Driver
 
 	// Annotation processors
-	annotationProcessor 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok' // Annotation processor for Lombok
 
-	// Dependencies for testing
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.security:spring-security-test'
+	// Testing dependencies
+	testImplementation 'org.springframework.boot:spring-boot-starter-test' // Starter for testing Spring Boot applications with libraries including JUnit, Hamcrest and Mockito
+	testImplementation 'org.springframework.security:spring-security-test' // Starter for testing Spring Security applications
 }
 
 dependencyManagement {
