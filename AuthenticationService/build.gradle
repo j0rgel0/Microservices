@@ -49,6 +49,9 @@ dependencies {
 	// Annotation processors
 	annotationProcessor 'org.projectlombok:lombok' // Annotation processor for Lombok
 
+	// API Documentation
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
+
 	// Testing dependencies
 	testImplementation 'org.springframework.boot:spring-boot-starter-test' // Starter for testing Spring Boot applications with libraries including JUnit, Hamcrest and Mockito
 	testImplementation 'org.springframework.security:spring-security-test' // Starter for testing Spring Security applications
